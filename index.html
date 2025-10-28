@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Entrar no grupo Achadões</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <style>
+    :root { --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --line:#e2e8f0; }
+    * { box-sizing: border-box; }
+    body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:var(--bg); color:var(--fg);}
+    .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
+    .card{max-width:640px; width:100%; background:#fff; border:1px solid var(--line); border-radius:16px; padding:24px;}
+    h1{font-size:24px; margin:0 0 8px;}
+    p{margin:8px 0; color:var(--muted);}
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;}
+    .btn{appearance:none; border:1px solid var(--line); background:#fff; color:var(--fg); padding:12px 16px; border-radius:10px; font-weight:600; text-decoration:none; cursor:pointer;}
+    .btn:active{transform:translateY(1px);}
+    .hint{font-size:14px; margin-top:8px; color:#475569;}
+    .small{font-size:12px; color:#94a3b8; margin-top:12px;}
+    code{background:#f8fafc; border:1px solid var(--line); padding:2px 6px; border-radius:6px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Entrar no grupo Achadões</h1>
+      <p>Toque em <strong>Abrir no WhatsApp</strong>. Se o app não abrir automaticamente, vamos levar você para a página oficial do convite.</p>
+      <div class="actions">
+        <a id="openApp" class="btn" href="#">Abrir no WhatsApp</a>
+        <a id="openWeb" class="btn" href="#" rel="noopener">Abrir página do convite</a>
+      </div>
+      <p class="hint">Se estiver dentro do Instagram, toque em <em>⋯</em> &rarr; <em>Abrir no navegador</em> e tente novamente.</p>
+      <p class="small">Código do convite: <code id="code">CaOd6MzQn3u6XMFp3Nkxey</code></p>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIG ---
+    const INVITE = "CaOd6MzQn3u6XMFp3Nkxey";
+    const CHAT_WEB = "https://chat.whatsapp.com/" + INVITE;
+    // Tentativas de deep link (nem todos funcionam em todos navegadores)
+    const CANDIDATES = [
+      "whatsapp://chat?code=" + INVITE,
+      "whatsapp://join?invite=" + INVITE,
+      "whatsapp://invite?code=" + INVITE
+    ];
+
+    const openAppBtn = document.getElementById('openApp');
+    const openWebBtn = document.getElementById('openWeb');
+    openWebBtn.href = CHAT_WEB;
+
+    function tryOpenSequence() {
+      let idx = 0;
+      const start = Date.now();
+      function attempt() {
+        if (idx >= CANDIDATES.length) {
+          window.location.href = CHAT_WEB;
+          return;
+        }
+        const url = CANDIDATES[idx++];
+        // Tenta abrir o app
+        window.location.href = url;
+        // Se em ~900ms não saiu da página, tenta o próximo / fallback
+        setTimeout(() => {
+          // heurística simples: se ainda estamos aqui, sigamos na sequência
+          if (Date.now() - start < 4000) {
+            attempt();
+          }
+        }, 900);
+      }
+      attempt();
+    }
+
+    openAppBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      tryOpenSequence();
+    });
+
+    // Opcional: tentar automaticamente ao carregar (descomente se quiser)
+    // window.addEventListener('load', tryOpenSequence);
+  </script>
+</body>
+</html>
