@@ -10,7 +10,7 @@ A página replica o estilo visual exibido quando o link é aberto dentro do Inst
 
 Entre no grupo Achadões pelo link abaixo:
 
-👉 **https://chat.whatsapp.com/LE71t2Pe9R22E8L0P0kyBh?mode=hqrc**
+👉 **https://chat.whatsapp.com/CaOd6MzQn3u6XMFp3Nkxey?mode=gi_t**
 
 ---
 
